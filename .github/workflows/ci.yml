@@ -9,9 +9,7 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./08_Testing
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
