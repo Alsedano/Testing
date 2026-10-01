@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { ConfirmationDialogComponent } from './confirmation-dialog.component';
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 
 describe('common/Confirmation Dialog Component', () => {
   it('should not render if isOpen is false', () => {
@@ -66,6 +67,54 @@ describe('common/Confirmation Dialog Component', () => {
     expect(element).toBeInTheDocument();
     expect(btnPrimary).toBeInTheDocument();
     expect(btnSecondary).toBeInTheDocument();
+  });
+
+  it('should perform Aceptar function when mandatory button is pressed', async () => {
+    // Arrange
+    const props: React.ComponentProps<typeof ConfirmationDialogComponent> = {
+      isOpen: true,
+      title: '',
+      onAccept: vi.fn(),
+      onClose: vi.fn(),
+      labels: { closeButton: 'Cerrar', acceptButton: 'Aceptar' },
+      children: null,
+    };
+
+    // Act
+    render(<ConfirmationDialogComponent {...props} />);
+
+    const element = screen.getByRole('dialog');
+    const btnPrimary = screen.getByText('Aceptar');
+    await userEvent.click(btnPrimary);
+
+    // Assert
+    expect(element).toBeInTheDocument();
+    expect(btnPrimary).toBeInTheDocument();
+    expect(props.onAccept).toHaveBeenCalled();
+  });
+
+  it('should perform Cerrar function when secondary button is pressed', async () => {
+    // Arrange
+    const props: React.ComponentProps<typeof ConfirmationDialogComponent> = {
+      isOpen: true,
+      title: '',
+      onAccept: vi.fn(),
+      onClose: vi.fn(),
+      labels: { closeButton: 'Cerrar', acceptButton: 'Aceptar' },
+      children: null,
+    };
+
+    // Act
+    render(<ConfirmationDialogComponent {...props} />);
+
+    const element = screen.getByRole('dialog');
+    const btnSecondary = screen.getByText('Cerrar');
+    await userEvent.click(btnSecondary);
+
+    // Assert
+    expect(element).toBeInTheDocument();
+    expect(btnSecondary).toBeInTheDocument();
+    expect(props.onClose).toHaveBeenCalled();
   });
 
   it('should render as expected with a title', () => {
