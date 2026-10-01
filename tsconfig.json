@@ -19,6 +19,7 @@
   "include": [
     "./src/**/*",
     "./config/test/config.d.ts",
-    "./config/test/setup.ts"
+    "./config/test/setup.ts",
+    "./config/test/config.d.ts"
   ]
 }
